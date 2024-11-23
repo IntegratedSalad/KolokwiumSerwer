@@ -1,35 +1,34 @@
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
 public class Message {
 
     private MessageType type;
-    private byte[] payload;
+    private String payload;
 
-    public Message(MessageType type, byte[] payload) {
+    public Message(MessageType type, String payload) {
         this.type = type;
         this.payload = payload;
     }
 
-    public byte[] ConstructFullPayload() {
-        int fullPayloadLength = 256;
-        byte[] fullPayload = new byte[fullPayloadLength];
+    public String ConstructFullPayload() {
+        String fullPayload = "";
         if (this.payload == null) {
-            fullPayload[0] = type.getByteType();
+            fullPayload += type.getTypeId();
         } else {
-            fullPayloadLength = this.payload.length + 1;
-            fullPayload[0] = type.getByteType();
-            System.arraycopy(payload, 0, fullPayload, 1, fullPayloadLength);
+            fullPayload += type.getTypeId();
+            fullPayload += this.payload;
         }
         return fullPayload;
     }
 
     public void Send(PrintWriter out) {
-        byte[] buffer = new byte[256];
-        byte[] msgPayload = this.ConstructFullPayload();
-        System.arraycopy(msgPayload, 0, buffer, 0, buffer.length);
-        out.println(Arrays.toString(buffer)); // send
+        String msgPayload = this.ConstructFullPayload();
+        out.println(msgPayload); // send
         out.flush();
+    }
+
+    public void SetPayload(String payload) {
+        this.payload = payload;
     }
 }

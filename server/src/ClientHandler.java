@@ -25,8 +25,8 @@ public class ClientHandler implements Runnable {
 
             PrintWriter out = new PrintWriter(new OutputStreamWriter(sock.getOutputStream()));
             Message msgHello = new Message(MessageType.MSG_HELLO, null);
+            msgHello.SetPayload("dawaj kurwo weed");
             msgHello.Send(out);
-//            out.flush();
             System.out.println("Hello sent!");
 
             while (true) {
