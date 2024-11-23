@@ -16,13 +16,6 @@ public class ClientHandler implements Runnable {
     public void run() {
         try {
 
-//            byte[] buffer = new byte[256];
-//            PrintWriter out = new PrintWriter(new OutputStreamWriter(sock.getOutputStream()));
-//            Message msgHello = new Message(MessageType.MSG_HELLO, null);
-//            byte[] msgPayload = msgHello.ConstructFullPayload();
-//            System.arraycopy(msgPayload, 0, buffer, 0, buffer.length);
-//            out.println(Arrays.toString(buffer)); // send
-
             PrintWriter out = new PrintWriter(new OutputStreamWriter(sock.getOutputStream()));
             Message msgHello = new Message(MessageType.MSG_HELLO, null);
             msgHello.SetPayload("dawaj kurwo weed");
@@ -30,13 +23,16 @@ public class ClientHandler implements Runnable {
             System.out.println("Hello sent!");
 
             while (true) {
+                // 1. Send question
+                // 2. Get Answer
+                // 3. Write Answer
+                // 4. Send next answer
 
             }
             // while -> wait for response
 
             // Client closes the socket...
             // Listen to messages sent by the client
-
 
 
         } catch (IOException e) {
