@@ -25,8 +25,8 @@ public class ClientHandler implements Runnable {
             while (true) {
                 // 1. Send question
                 // 2. Get Answer
-                // 3. Write Answer
-                // 4. Send next answer
+                // 3. Write Answer to file
+                // loop
 
             }
             // while -> wait for response
