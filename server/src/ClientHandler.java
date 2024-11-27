@@ -62,23 +62,24 @@ public class ClientHandler implements Runnable {
                     resp = resp.toLowerCase();
 
                     System.out.println("Received response (answer): " + resp);
-                    this.concurrentFileHandler.writeLine(clientName + " " + questionNumber + ": " + resp);
+
+                    if (resp.equalsIgnoreCase(this.currentQuestion.getRightAnswer())) {
+                        this.score++;
+                    }
+                    this.concurrentFileHandler.writeLine(clientName + " " + this.questionNumber + ": " + resp);
                 } else {
                     System.out.println("End of questions, terminating session...");
-                    Message msgQuizCompleted = new Message(MessageType.MSG_USER_QUIZ_COMPLETED, null); // TODO: payload wynik
+                    final String scoreString = this.score + "/" + this.questionNumber;
+                    System.out.println("Score: " + scoreString);
+
+                    Message msgQuizCompleted = new Message(MessageType.MSG_USER_QUIZ_COMPLETED, scoreString);
+                    Thread.sleep(2000);
                     msgQuizCompleted.Send(socOut);
+                    msgQuizCompleted.Send(socOut); // nie mam pojecia dlaczego trzeba dwa razy
                     return;
                 }
-
-//                Message msgQuestion = new Message(MessageType.MSG_SERVER_SENDS_QUESTION, payload);
-                // 2. Get Answer -> wait (block) on reading the socket...
-                // 3. Write Answer to file
-                // loop
-
             }
-
             // Client closes the socket... TODO: Server closes socket upon timer...
-            // Listen to messages sent by the client
 
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
