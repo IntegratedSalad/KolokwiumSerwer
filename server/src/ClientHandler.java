@@ -7,16 +7,19 @@ import java.util.concurrent.locks.ReentrantLock;
 public class ClientHandler implements Runnable {
 
     private Socket sock;
-    private int questionNumber = 1;
+    private int questionNumber = 0;
     private int currentLine = 0;
 //    private OutputStream outputStream;
 //    private InputStream inputStream;
     private ConcurrentFileHandler concurrentFileHandler;
     private Question currentQuestion;
 
+    private String clientName;
+
     public ClientHandler(Socket socket, ReentrantLock rwLock) throws FileNotFoundException {
         this.sock = socket;
-        this.concurrentFileHandler = new ConcurrentFileHandler("src/bazaPytan.txt", rwLock);
+        this.concurrentFileHandler = new ConcurrentFileHandler("src/bazaPytan.txt",
+                "src/bazaOdpowiedzi.txt", rwLock);
     }
 
     @Override
@@ -25,6 +28,11 @@ public class ClientHandler implements Runnable {
 
             PrintWriter socOut = new PrintWriter(new OutputStreamWriter(sock.getOutputStream()));
             BufferedReader socIn = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+
+            // wait for name
+            System.out.println("Waiting for name...");
+            clientName = GetResponseFromClient(socIn); // TODO: Decode message
+            System.out.println("Client " + clientName + " has been connected to " + sock.getRemoteSocketAddress());
 
             Message msgHello = new Message(MessageType.MSG_HELLO, null);
             msgHello.SetPayload("dawaj kurwo weed");
@@ -54,6 +62,7 @@ public class ClientHandler implements Runnable {
             String resp = GetResponseFromClient(socIn);
 
             System.out.println("Received response (answer): " + resp);
+            this.concurrentFileHandler.writeLine(clientName + " " + questionNumber + ": " + resp);
 
 //                Message msgQuestion = new Message(MessageType.MSG_SERVER_SENDS_QUESTION, payload);
                 // 2. Get Answer -> wait (block) on reading the socket...
@@ -123,7 +132,7 @@ public class ClientHandler implements Runnable {
     }
 
     private String GetResponseFromClient(BufferedReader socIn) throws IOException, InterruptedException {
-        Thread.sleep(2000);
+//        Thread.sleep(2000);
         String buff = null;
         while ((buff = socIn.readLine()) == null);  // wait if there's nothing
         return buff;
