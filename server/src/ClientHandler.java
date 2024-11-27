@@ -16,6 +16,8 @@ public class ClientHandler implements Runnable {
 
     private String clientName;
 
+    private int score = 0;
+
     public ClientHandler(Socket socket, ReentrantLock rwLock) throws FileNotFoundException {
         this.sock = socket;
         this.concurrentFileHandler = new ConcurrentFileHandler("src/bazaPytan.txt",
@@ -47,6 +49,11 @@ public class ClientHandler implements Runnable {
                 if (nextQuestion != null) {
                     this.currentQuestion = nextQuestion;
                     String payload = nextQuestion.getQuestion();
+                    payload += " ANS:";
+                    for (String answer : nextQuestion.getPossibleAnswers()) {
+                        payload += answer + " ";
+                    }
+                    System.out.println("Question: " + payload);
                     Message msgNextQuestion = new Message(MessageType.MSG_SERVER_SENDS_QUESTION, payload);
                     System.out.println("Sending question...");
                     msgNextQuestion.Send(socOut);
@@ -58,7 +65,7 @@ public class ClientHandler implements Runnable {
                     this.concurrentFileHandler.writeLine(clientName + " " + questionNumber + ": " + resp);
                 } else {
                     System.out.println("End of questions, terminating session...");
-                    Message msgQuizCompleted = new Message(MessageType.MSG_USER_QUIZ_COMPLETED, null);
+                    Message msgQuizCompleted = new Message(MessageType.MSG_USER_QUIZ_COMPLETED, null); // TODO: payload wynik
                     msgQuizCompleted.Send(socOut);
                     return;
                 }
@@ -129,7 +136,6 @@ public class ClientHandler implements Runnable {
     }
 
     private String GetResponseFromClient(BufferedReader socIn) throws IOException, InterruptedException {
-//        Thread.sleep(2000);
         String buff = null;
         while ((buff = socIn.readLine()) == null);  // wait if there's nothing
         return buff;
