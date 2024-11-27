@@ -23,8 +23,6 @@ public class Main {
             // and has to decode it and print to the output.
             // Client holds the connection until he sends message "MSG_USER_QUIZ_ABANDONED"
 
-
-
         } catch (IOException e) {
             System.out.println("IO Error while creating server socket: " + e.getMessage() + "!");
             System.exit(1);

@@ -39,40 +39,38 @@ public class ClientHandler implements Runnable {
             msgHello.Send(socOut);
             System.out.println("Hello sent!");
 
-            Thread.sleep(2000);
-
             StringBuilder sb = new StringBuilder();
-//            while (true) {
+            while (true) {
 
                 // 1. Send question
-            final Question nextQuestion = GetNextQuestion();
-            if (nextQuestion != null) {
-                this.currentQuestion = nextQuestion;
-            } else {
-                // end of questions?
-            }
-            String payload = nextQuestion.getQuestion();
-            if (payload != null) {
-                Message msgNextQuestion = new Message(MessageType.MSG_SERVER_SENDS_QUESTION, payload);
-                System.out.println("Sending question...");
-                msgNextQuestion.Send(socOut);
-            }
+                final Question nextQuestion = GetNextQuestion();
+                if (nextQuestion != null) {
+                    this.currentQuestion = nextQuestion;
+                    String payload = nextQuestion.getQuestion();
+                    Message msgNextQuestion = new Message(MessageType.MSG_SERVER_SENDS_QUESTION, payload);
+                    System.out.println("Sending question...");
+                    msgNextQuestion.Send(socOut);
+                    System.out.println("Question send, waiting for an answer...");
+                    String resp = GetResponseFromClient(socIn);
+                    resp = resp.toLowerCase();
 
-            System.out.println("Question send, waiting for an answer...");
-            String resp = GetResponseFromClient(socIn);
-
-            System.out.println("Received response (answer): " + resp);
-            this.concurrentFileHandler.writeLine(clientName + " " + questionNumber + ": " + resp);
+                    System.out.println("Received response (answer): " + resp);
+                    this.concurrentFileHandler.writeLine(clientName + " " + questionNumber + ": " + resp);
+                } else {
+                    System.out.println("End of questions, terminating session...");
+                    Message msgQuizCompleted = new Message(MessageType.MSG_USER_QUIZ_COMPLETED, null);
+                    msgQuizCompleted.Send(socOut);
+                    return;
+                }
 
 //                Message msgQuestion = new Message(MessageType.MSG_SERVER_SENDS_QUESTION, payload);
                 // 2. Get Answer -> wait (block) on reading the socket...
                 // 3. Write Answer to file
                 // loop
 
-//            }
-            // while -> wait for response
+            }
 
-            // Client closes the socket...
+            // Client closes the socket... TODO: Server closes socket upon timer...
             // Listen to messages sent by the client
 
         } catch (IOException | InterruptedException e) {
@@ -84,13 +82,12 @@ public class ClientHandler implements Runnable {
 
     private Question GetNextQuestion() throws IOException {
 
-        String[] lines = concurrentFileHandler.readNLines(2, currentLine);
+        String[] lines = concurrentFileHandler.readNLines(2, this.currentLine);
         String questionString = lines[0];
+        if (questionString == null) return null;
         String answerString = lines[1];
         String correctAnswer = GetAnswerFromQuestionString(questionString);
         String question = GetQuestionFromQuestionString(questionString);
-
-        if (correctAnswer == null) return null;
 
         String[] allPossibleAnswers = GetAlPossibleAnswers(answerString);
 
@@ -101,7 +98,7 @@ public class ClientHandler implements Runnable {
         Question questionObj = new Question(question, correctAnswer, allPossibleAnswers);
 
         this.questionNumber++;
-        currentLine += 2;
+        this.currentLine += 2;
         return questionObj;
     }
 

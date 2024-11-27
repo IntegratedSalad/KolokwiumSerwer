@@ -1,9 +1,5 @@
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.concurrent.locks.Lock;
 
 public class ConcurrentFileHandler {
 
@@ -40,9 +36,7 @@ public class ConcurrentFileHandler {
         this.br = new BufferedReader(new FileReader(this.filenameIn)); // TODO: maybe instantiate once
         try {
             String[] linesToReturn = new String[nlines];
-            if (skip > 0) {
-                this.br.readLine();
-            }
+            for (int i = 0; i < skip; i++) {this.br.readLine();} // skip lines
             for (int i = 0; i < nlines; i++) {
                 linesToReturn[i] = this.br.readLine();
             }
