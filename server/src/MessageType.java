@@ -7,7 +7,7 @@ public enum MessageType {
     MSG_HELLO(6);
 
     private final int id;
-    private MessageType(int id) {
+    MessageType(int id) {
         this.id = id; // identyfikator
     }
 
