@@ -1,8 +1,6 @@
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.Arrays;
-import java.util.concurrent.*;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ClientHandler implements Runnable {
@@ -10,8 +8,6 @@ public class ClientHandler implements Runnable {
     private Socket sock;
     private int questionNumber = 0;
     private int currentLine = 0;
-//    private OutputStream outputStream;
-//    private InputStream inputStream;
     private ConcurrentFileHandler concurrentFileHandler;
     private Question currentQuestion;
 

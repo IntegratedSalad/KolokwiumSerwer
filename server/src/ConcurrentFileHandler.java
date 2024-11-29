@@ -5,7 +5,6 @@ public class ConcurrentFileHandler {
 
     private BufferedReader br = null;
     private BufferedWriter bw = null;
-    private StringBuilder sb = null;
     private ReentrantLock rwLock;
 
     String filenameIn = null;
@@ -15,20 +14,6 @@ public class ConcurrentFileHandler {
         this.filenameIn = filenameIn;
         this.filenameOut = filenameOut;
         this.rwLock = lock;
-//        try {
-//            br = new BufferedReader(new FileReader(filename));
-//            sb = new StringBuilder();
-//
-//            // 0. Create a buffered reader (open file)
-//            // 1. Lock file
-//            // 2. Read n lines (skip n lines if needed)
-//            // 3. Unlock file
-//            // 4. Close file
-//
-//        }  catch (FileNotFoundException e) {
-//            System.out.println("File not found: " + filename);
-//            System.exit(1);
-//        }
     }
 
     public String[] readNLines(final int nlines, final int skip) throws IOException {
@@ -62,6 +47,5 @@ public class ConcurrentFileHandler {
         }
     }
 
-    // Write
     // We have to test >100 threads!!!
 }
