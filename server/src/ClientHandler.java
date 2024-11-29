@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Arrays;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.ReentrantLock;
@@ -82,7 +83,9 @@ public class ClientHandler implements Runnable {
             // Client closes the socket... TODO: Server closes socket upon timer...
 
         } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
+            if (e instanceof SocketException) {
+                System.out.println("Disconnecting, probably client had a timeout.");
+            }
         } finally {
             System.out.println("Ended task for " + sock.getInetAddress().getHostName());
         }

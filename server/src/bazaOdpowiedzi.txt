@@ -260,3 +260,29 @@ Kszysioslaw 5: 5
 Kszysioslaw 6: 6
 Kszysioslaw 7: 7
 Kszysioslaw 8: 8
+guwno 1: 1
+guwno 2: 2
+guwno 3: 3
+guwno 4: 4
+guwno 5: 5
+guwno 6: 6
+guwno 7: 7
+guwno 8: 8
+nidz 1: 1
+nidz 2: 2
+Kszysio 1: 1
+Kszysio 2: 2
+Kszysio 3: 3
+Kszysio 4: 4
+Kszysio 5: 5
+Kszysio 6: 6
+Kszysio 7: 7
+Kszysio 8: 8
+krzysio 1: 3
+krzysio 2: moze
+guwno 1: 2
+guwno 2: siosiak
+okropny kabrzdyalrz 1: siosio
+okropny kabrzdyalrz 2: 1
+okropny kabrzdyalrz 3: 2
+okropny kabrzdyalrz 4: 3

@@ -8,6 +8,8 @@ public class Main {
         ExecutorService executor = Executors.newFixedThreadPool(250);
         ReentrantLock rwLock = new ReentrantLock();
 
+        // Test...
+
         try {
             ServerSocket serverSocket = new ServerSocket(2137);
 
@@ -27,5 +29,10 @@ public class Main {
             System.out.println("IO Error while creating server socket: " + e.getMessage() + "!");
             System.exit(1);
         }
+    }
+
+    public static void Test(ExecutorService ex, ReentrantLock rwlock) {
+
+
     }
 }
