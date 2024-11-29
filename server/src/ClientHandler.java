@@ -34,7 +34,7 @@ public class ClientHandler implements Runnable {
             System.out.println("Client " + clientName + " has been connected to " + sock.getRemoteSocketAddress());
 
             Message msgHello = new Message(MessageType.MSG_HELLO, null);
-            msgHello.SetPayload("dawaj kurwo weed");
+            msgHello.SetPayload("Hejo!");
             msgHello.Send(socOut);
             System.out.println("Hello sent!");
 
