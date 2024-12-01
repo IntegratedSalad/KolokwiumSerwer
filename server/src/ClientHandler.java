@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
+import java.sql.SQLException;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ClientHandler implements Runnable {
@@ -15,7 +16,7 @@ public class ClientHandler implements Runnable {
 
     private int score = 0;
 
-    public ClientHandler(Socket socket, ReentrantLock rwLock) throws FileNotFoundException {
+    public ClientHandler(Socket socket, ReentrantLock rwLock) throws FileNotFoundException, SQLException {
         this.sock = socket;
         this.concurrentFileHandler = new ConcurrentFileHandler(rwLock);
     }

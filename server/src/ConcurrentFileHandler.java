@@ -1,14 +1,9 @@
-import lombok.Getter;
-import lombok.Setter;
-
 import java.io.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.concurrent.locks.ReentrantLock;
 
-@Getter
-@Setter
 public class ConcurrentFileHandler {
 
     private Connection connection;
@@ -21,7 +16,7 @@ public class ConcurrentFileHandler {
 //    String filenameIn = null;
 //    String filenameOut = null;
 
-    ConcurrentFileHandler(ReentrantLock lock) throws FileNotFoundException, SQLException {
+    ConcurrentFileHandler(ReentrantLock lock) throws SQLException {
         this.connection = DbConnection.connect();
         this.statement = DbConnection.createStatement(this.connection);
         this.rwLock = lock;
@@ -29,7 +24,7 @@ public class ConcurrentFileHandler {
 
     public String[] readNLines(final int nlines, final int skip) throws IOException {
         this.rwLock.lock();
-        this.br = new BufferedReader(new FileReader(this.filenameIn)); // TODO: maybe instantiate once
+        this.br = new BufferedReader(new FileReader(this.filenameIn));
         try {
             String[] linesToReturn = new String[nlines];
             for (int i = 0; i < skip; i++) {this.br.readLine();} // skip lines
