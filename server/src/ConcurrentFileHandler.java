@@ -11,8 +11,8 @@ import java.util.concurrent.locks.ReentrantLock;
 @Setter
 public class ConcurrentFileHandler {
 
-    Connection connection;
-    Statement statement;
+    private Connection connection;
+    private Statement statement;
 
     private BufferedReader br = null;
     private BufferedWriter bw = null;
@@ -22,23 +22,16 @@ public class ConcurrentFileHandler {
 //    String filenameOut = null;
 
     ConcurrentFileHandler(ReentrantLock lock) throws FileNotFoundException, SQLException {
-        this.connection = DbConnection.connection;
+        this.connection = DbConnection.connect();
         this.statement = DbConnection.createStatement(this.connection);
         this.rwLock = lock;
     }
 
-    public void executeStatement(String query) throws SQLException {
+    public void checkSetupDB() throws SQLException {
         try {
-            this.statement.executeQuery(query);
+            this.statement.executeUpdate("");
         } catch (SQLException e) {
-            System.out.print("Błąd w readStatement!");
-        }
-    }
-    public void updateStatement(String query) throws SQLException {
-        try {
-            this.statement.executeUpdate(query);
-        } catch (SQLException e) {
-            System.out.print("Błąd w updateStatement!");
+            System.out.print("Błąd przygotowania tabel!");
         }
     }
 

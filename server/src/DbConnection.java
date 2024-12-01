@@ -34,4 +34,19 @@ public class DbConnection {
             System.out.print("Błąd w zamykaniu statement!");
         }
     }
+
+    public static void executeStatement(String query, Statement statement) throws SQLException {
+        try {
+            statement.executeQuery(query);
+        } catch (SQLException e) {
+            System.out.print("Błąd w readStatement!");
+        }
+    }
+    public static void updateStatement(String query, Statement statement) throws SQLException {
+        try {
+            statement.executeUpdate(query);
+        } catch (SQLException e) {
+            System.out.print("Błąd w updateStatement!");
+        }
+    }
 }
