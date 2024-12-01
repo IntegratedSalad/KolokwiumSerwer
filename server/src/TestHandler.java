@@ -9,15 +9,9 @@ public class TestHandler implements Runnable {
 
     public TestHandler(ReentrantLock rwLock) throws FileNotFoundException {
         this.rwLock = rwLock;
-        this.concurrentFileHandler = new ConcurrentFileHandler("src/bazaPytan.txt",
-                "src/bazaOdpowiedzi.txt", rwLock);
+        this.concurrentFileHandler = new ConcurrentFileHandler(rwLock);
     }
-
 
     @Override
-    public void run() {
-
-//        this.co
-
-    }
+    public void run() {}
 }

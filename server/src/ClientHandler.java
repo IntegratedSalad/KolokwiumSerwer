@@ -17,8 +17,7 @@ public class ClientHandler implements Runnable {
 
     public ClientHandler(Socket socket, ReentrantLock rwLock) throws FileNotFoundException {
         this.sock = socket;
-        this.concurrentFileHandler = new ConcurrentFileHandler("/root/src/bazaPytan.txt",
-                "/root/src/bazaOdpowiedzi.txt", rwLock);
+        this.concurrentFileHandler = new ConcurrentFileHandler(rwLock);
     }
 
     @Override

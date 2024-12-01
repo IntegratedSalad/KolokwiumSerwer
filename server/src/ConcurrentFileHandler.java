@@ -1,19 +1,45 @@
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.concurrent.locks.ReentrantLock;
 
+@Getter
+@Setter
 public class ConcurrentFileHandler {
+
+    Connection connection;
+    Statement statement;
 
     private BufferedReader br = null;
     private BufferedWriter bw = null;
     private ReentrantLock rwLock;
 
-    String filenameIn = null;
-    String filenameOut = null;
+//    String filenameIn = null;
+//    String filenameOut = null;
 
-    ConcurrentFileHandler(final String filenameIn, final String filenameOut, ReentrantLock lock) throws FileNotFoundException {
-        this.filenameIn = filenameIn;
-        this.filenameOut = filenameOut;
+    ConcurrentFileHandler(ReentrantLock lock) throws FileNotFoundException, SQLException {
+        this.connection = DbConnection.connection;
+        this.statement = DbConnection.createStatement(this.connection);
         this.rwLock = lock;
+    }
+
+    public void executeStatement(String query) throws SQLException {
+        try {
+            this.statement.executeQuery(query);
+        } catch (SQLException e) {
+            System.out.print("Błąd w readStatement!");
+        }
+    }
+    public void updateStatement(String query) throws SQLException {
+        try {
+            this.statement.executeUpdate(query);
+        } catch (SQLException e) {
+            System.out.print("Błąd w updateStatement!");
+        }
     }
 
     public String[] readNLines(final int nlines, final int skip) throws IOException {
@@ -46,6 +72,4 @@ public class ConcurrentFileHandler {
             this.bw = null;
         }
     }
-
-    // We have to test >100 threads!!!
 }
