@@ -1,24 +1,30 @@
 import java.io.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ConcurrentFileHandler {
+
+    private Connection connection;
+    private Statement statement;
 
     private BufferedReader br = null;
     private BufferedWriter bw = null;
     private ReentrantLock rwLock;
 
-    String filenameIn = null;
-    String filenameOut = null;
+//    String filenameIn = null;
+//    String filenameOut = null;
 
-    ConcurrentFileHandler(final String filenameIn, final String filenameOut, ReentrantLock lock) throws FileNotFoundException {
-        this.filenameIn = filenameIn;
-        this.filenameOut = filenameOut;
+    ConcurrentFileHandler(ReentrantLock lock) throws SQLException {
+        this.connection = DbConnection.connect();
+        this.statement = DbConnection.createStatement(this.connection);
         this.rwLock = lock;
     }
 
     public String[] readNLines(final int nlines, final int skip) throws IOException {
         this.rwLock.lock();
-        this.br = new BufferedReader(new FileReader(this.filenameIn)); // TODO: maybe instantiate once
+        this.br = new BufferedReader(new FileReader(this.filenameIn));
         try {
             String[] linesToReturn = new String[nlines];
             for (int i = 0; i < skip; i++) {this.br.readLine();} // skip lines
@@ -46,6 +52,4 @@ public class ConcurrentFileHandler {
             this.bw = null;
         }
     }
-
-    // We have to test >100 threads!!!
 }

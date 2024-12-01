@@ -1,5 +1,8 @@
 import java.io.IOException;
 import java.net.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -11,6 +14,14 @@ public class Main {
         // Test...
 
         try {
+
+            // DB SETUP
+            Connection checker = DbConnection.connect();
+            Statement check = DbConnection.createStatement(checker);
+            DbConnection.checkSetupDB(check);
+            DbConnection.closeConnection(checker, check);
+
+            // SOCKET SETUP
             ServerSocket serverSocket = new ServerSocket(2137);
 
             System.out.println("Waiting for connection...");
@@ -28,6 +39,8 @@ public class Main {
         } catch (IOException e) {
             System.out.println("IO Error while creating server socket: " + e.getMessage() + "!");
             System.exit(1);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
