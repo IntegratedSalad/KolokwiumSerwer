@@ -27,14 +27,6 @@ public class ConcurrentFileHandler {
         this.rwLock = lock;
     }
 
-    public void checkSetupDB() throws SQLException {
-        try {
-            this.statement.executeUpdate("");
-        } catch (SQLException e) {
-            System.out.print("Błąd przygotowania tabel!");
-        }
-    }
-
     public String[] readNLines(final int nlines, final int skip) throws IOException {
         this.rwLock.lock();
         this.br = new BufferedReader(new FileReader(this.filenameIn)); // TODO: maybe instantiate once

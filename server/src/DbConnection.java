@@ -49,4 +49,25 @@ public class DbConnection {
             System.out.print("Błąd w updateStatement!");
         }
     }
+    public static void checkSetupDB(Statement statement) throws SQLException {
+        try {
+            String questionTable = """
+        CREATE TABLE IF NOT EXISTS questions (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            question TEXT NOT NULL,
+            answers TEXT NOT NULL,
+            correct_answer TEXT NOT NULL);""";
+            String answersTable = """
+        CREATE TABLE IF NOT EXISTS user_answers (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            username VARCHAR(255) NOT NULL,
+            question_id INT NOT NULL,
+            answer TEXT NOT NULL,
+            FOREIGN KEY (question_id) REFERENCES questions(id)); """;
+            statement.executeUpdate(questionTable);
+            statement.executeUpdate(answersTable);
+        } catch (SQLException e) {
+            System.out.print("Błąd przygotowania tabel!");
+        }
+    }
 }
