@@ -78,19 +78,24 @@ public class DbConnection {
     public static void checkSetupDB(Statement statement) throws SQLException {
         try {
             String setupQuery = """
-            CREATE DATABASE IF NOT EXIST javalab;
-            USE javalab;
-            CREATE TABLE IF NOT EXISTS questions (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                question TEXT NOT NULL,
-                answers TEXT NOT NULL,
-                correct_answer TEXT NOT NULL);
-            CREATE TABLE IF NOT EXISTS user_answers (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                username VARCHAR(255) NOT NULL,
-                question_id INT NOT NULL,
-                answer TEXT NOT NULL,
-                FOREIGN KEY (question_id) REFERENCES questions(id));""";
+                CREATE DATABASE IF NOT EXISTS javalab;
+                USE javalab;
+                CREATE TABLE IF NOT EXISTS questions (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    question TEXT NOT NULL,
+                    answers TEXT NOT NULL,
+                    correct_answer TEXT NOT NULL);
+                CREATE TABLE IF NOT EXISTS user_answers (
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    username VARCHAR(255) NOT NULL,
+                    question_id INT NOT NULL,
+                    answer TEXT NOT NULL,
+                    FOREIGN KEY (question_id) REFERENCES questions(id));
+                                    INSERT INTO questions (question, answers, correct_answer) VALUES\s
+                    ('Wiecej niz jedno zwierze to?', 'lama stado orzel tatra', 'lama'),
+                    ('Bilbo Baggins wyrzuca na kosci 9...', 'nie zalezy moze tak', 'nie');    
+
+                                                                        """;
 
             statement.executeUpdate(setupQuery);
 
