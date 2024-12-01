@@ -17,8 +17,8 @@ public class ClientHandler implements Runnable {
 
     public ClientHandler(Socket socket, ReentrantLock rwLock) throws FileNotFoundException {
         this.sock = socket;
-        this.concurrentFileHandler = new ConcurrentFileHandler("./src/bazaPytan.txt",
-                "./src/bazaOdpowiedzi.txt", rwLock);
+        this.concurrentFileHandler = new ConcurrentFileHandler("/root/src/bazaPytan.txt",
+                "/root/src/bazaOdpowiedzi.txt", rwLock);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class ClientHandler implements Runnable {
             System.out.println("Client " + clientName + " has been connected to " + sock.getRemoteSocketAddress());
 
             Message msgHello = new Message(MessageType.MSG_HELLO, null);
-            msgHello.SetPayload("dawaj kurwo weed");
+            msgHello.SetPayload("Połączono");
             msgHello.Send(socOut);
             System.out.println("Hello sent!");
 
