@@ -6,3 +6,43 @@ Pszemyslaw Gorkiewicz 5: 4
 Pszemyslaw Gorkiewicz 6: 5
 Pszemyslaw Gorkiewicz 7: nie
 Pszemyslaw Gorkiewicz 8: dodo
+k 1: lama
+Kacper 1: lama
+Kacper 2: zalezy
+Kacper 3: 3
+Kacper 4: renkom
+Kacper 5: nic
+Kacper 6: mogogog
+k 2: mars
+k 3: 1939
+k 4: 8
+k 5: amazonka
+Kacper 2: mars
+Kacper 3: 1939
+Kacper 4: 8
+Kacper 5: nil
+Kacper 2: jowisz
+Kacper 3: 1939
+Kacper 4: 8
+Kacper 5: leniwiec
+Kacper 6: tlen
+Kacper2 2: jowisz
+Kacper2 3: 1939
+Kacper2 4: 8
+Kacper2 5: leniwiec
+Kacper2 6: tlen
+Kacper 2: jowisz
+Kacper 3: 1939
+Kacper 4: e
+Kacper 5: e
+Kacper 6: e
+KacperTest 2: jowisz
+KacperTest 3: 1939
+KacperTest 4: 8
+KacperTest 5: leniwiec
+KacperTest 6: tlen
+K 2: jowisz
+K 3: 1939
+K 4: 8
+K 5: d
+K 6: d

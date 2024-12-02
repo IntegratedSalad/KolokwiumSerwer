@@ -7,8 +7,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class ClientHandler implements Runnable {
 
     private Socket sock;
-    private int questionNumber = 0;
-    private int currentLine = 0;
+    private int questionNumber = 1;
     private ConcurrentFileHandler concurrentFileHandler;
     private Question currentQuestion;
 
@@ -18,7 +17,8 @@ public class ClientHandler implements Runnable {
 
     public ClientHandler(Socket socket, ReentrantLock rwLock) throws FileNotFoundException, SQLException {
         this.sock = socket;
-        this.concurrentFileHandler = new ConcurrentFileHandler(rwLock);
+        this.concurrentFileHandler = new ConcurrentFileHandler("server/src/bazaPytan.txt",
+                "server/src/bazaOdpowiedzi.txt", rwLock);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class ClientHandler implements Runnable {
             System.out.println("Client " + clientName + " has been connected to " + sock.getRemoteSocketAddress());
 
             Message msgHello = new Message(MessageType.MSG_HELLO, null);
-            msgHello.SetPayload("Połączono");
+            msgHello.SetPayload("Hejo!");
             msgHello.Send(socOut);
             System.out.println("Hello sent!");
 
@@ -82,14 +82,16 @@ public class ClientHandler implements Runnable {
             if (e instanceof SocketException) {
                 System.out.println("Disconnecting, probably client had a timeout.");
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         } finally {
             System.out.println("Ended task for " + sock.getInetAddress().getHostName());
         }
     }
 
-    private Question GetNextQuestion() throws IOException {
+    private Question GetNextQuestion() throws IOException, SQLException {
 
-        String[] lines = concurrentFileHandler.readNLines(2, this.currentLine);
+        String[] lines = concurrentFileHandler.readfromDB(this.questionNumber);
         String questionString = lines[0];
         if (questionString == null) return null;
         String answerString = lines[1];
@@ -105,7 +107,6 @@ public class ClientHandler implements Runnable {
         Question questionObj = new Question(question, correctAnswer, allPossibleAnswers);
 
         this.questionNumber++;
-        this.currentLine += 2;
         return questionObj;
     }
 

@@ -11,10 +11,7 @@ public class Main {
         ExecutorService executor = Executors.newFixedThreadPool(250);
         ReentrantLock rwLock = new ReentrantLock();
 
-        // Test...
-
         try {
-
             // DB SETUP
             Connection checker = DbConnection.connect();
             Statement check = DbConnection.createStatement(checker);
@@ -42,10 +39,5 @@ public class Main {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public static void Test(ExecutorService ex, ReentrantLock rwlock) {
-
-
     }
 }
