@@ -62,7 +62,7 @@ public class DbConnection {
             statement.execute(DB_NAME_QUERY);
             return statement.executeQuery(query);
         } catch (SQLException e) {
-            System.out.println("Błąd w readStatement!");
+            System.out.println("Błąd w executeStatement!");
             throw e;
         } finally {
             lock.unlock();

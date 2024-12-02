@@ -39,22 +39,11 @@ public class ConcurrentFileHandler {
         }
         return resultTable;
     }
-
-    public String[] readNLines(final int nlines, final int skip) throws IOException {
-        this.rwLock.lock();
-        this.br = new BufferedReader(new FileReader(this.filenameIn)); // TODO: maybe instantiate once
-        try {
-            String[] linesToReturn = new String[nlines];
-            for (int i = 0; i < skip; i++) {this.br.readLine();} // skip lines
-            for (int i = 0; i < nlines; i++) {
-                linesToReturn[i] = this.br.readLine();
-            }
-            return linesToReturn;
-        } finally {
-            this.br.close();
-            this.rwLock.unlock();
-            this.br = null;
-        }
+    public void savetoDB(String student, int id, String studentAnswer) throws SQLException {
+        String query = """
+                     INSERT INTO user_answers (username, question_id, answer)
+                     VALUES ('%s', '%d', '%s');""".formatted(student, id, studentAnswer);
+        DbConnection.updateStatement(query, this.statement);
     }
 
     public void writeLine(final String line) throws IOException {

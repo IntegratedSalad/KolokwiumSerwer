@@ -63,7 +63,7 @@ public class ClientHandler implements Runnable {
                     if (resp.equalsIgnoreCase(this.currentQuestion.getRightAnswer())) {
                         this.score++;
                     }
-                    this.concurrentFileHandler.writeLine(clientName + " " + this.questionNumber + ": " + resp);
+                    this.concurrentFileHandler.savetoDB(clientName, this.questionNumber-1, resp);
                 } else {
                     System.out.println("End of questions, terminating session...");
                     final String scoreString = this.score + "/" + this.questionNumber;

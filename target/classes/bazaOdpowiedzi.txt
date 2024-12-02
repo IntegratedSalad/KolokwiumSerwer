@@ -41,3 +41,8 @@ KacperTest 3: 1939
 KacperTest 4: 8
 KacperTest 5: leniwiec
 KacperTest 6: tlen
+K 2: jowisz
+K 3: 1939
+K 4: 8
+K 5: d
+K 6: d

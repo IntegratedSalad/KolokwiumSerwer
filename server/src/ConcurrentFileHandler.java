@@ -39,6 +39,12 @@ public class ConcurrentFileHandler {
         }
         return resultTable;
     }
+    public void savetoDB(String student, int id, String studentAnswer) throws SQLException {
+        String query = """
+                     INSERT INTO user_answers (username, question_id, answer)
+                     VALUES ('%s', '%d', '%s');""".formatted(student, id, studentAnswer);
+        DbConnection.updateStatement(query, this.statement);
+    }
 
     public void writeLine(final String line) throws IOException {
         this.rwLock.lock();

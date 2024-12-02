@@ -8,7 +8,6 @@ public class ClientHandler implements Runnable {
 
     private Socket sock;
     private int questionNumber = 1;
-    //private int currentLine = 0;
     private ConcurrentFileHandler concurrentFileHandler;
     private Question currentQuestion;
 
@@ -64,7 +63,7 @@ public class ClientHandler implements Runnable {
                     if (resp.equalsIgnoreCase(this.currentQuestion.getRightAnswer())) {
                         this.score++;
                     }
-                    this.concurrentFileHandler.writeLine(clientName + " " + this.questionNumber + ": " + resp);
+                    this.concurrentFileHandler.savetoDB(clientName, this.questionNumber-1, resp);
                 } else {
                     System.out.println("End of questions, terminating session...");
                     final String scoreString = this.score + "/" + this.questionNumber;
@@ -92,11 +91,7 @@ public class ClientHandler implements Runnable {
 
     private Question GetNextQuestion() throws IOException, SQLException {
 
-        //String[] lines = concurrentFileHandler.readNLines(2, this.currentLine);
         String[] lines = concurrentFileHandler.readfromDB(this.questionNumber);
-//        for (int i = 0; i < lines.length; i++) {
-//            System.out.println("'"+lines[i]+"'");
-//        }
         String questionString = lines[0];
         if (questionString == null) return null;
         String answerString = lines[1];
@@ -112,7 +107,6 @@ public class ClientHandler implements Runnable {
         Question questionObj = new Question(question, correctAnswer, allPossibleAnswers);
 
         this.questionNumber++;
-        //this.currentLine += 2;
         return questionObj;
     }
 
