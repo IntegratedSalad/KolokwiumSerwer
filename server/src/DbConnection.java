@@ -1,11 +1,11 @@
-import com.mysql.cj.protocol.Resultset;
+//import com.mysql.cj.protocol.Resultset;
 
 import java.sql.*;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class DbConnection {
 
-    static final String URL = "jdbc:mysql://192.168.1.29:3306";
+    static final String URL = "jdbc:mysql://localhost:3306";
     static final String DB_NAME_QUERY = "USE javalab";
     static final String USER = "root";
     static final String PASSWORD = "haslo";
@@ -99,19 +99,19 @@ public class DbConnection {
                     question_id INT NOT NULL,
                     answer TEXT NOT NULL,
                     FOREIGN KEY (question_id) REFERENCES questions(id));""";
-        /*  String questions = """
+        String questions = """
                 INSERT IGNORE INTO questions (question, answers, correct_answer) VALUES
                      ('Która planeta jest największa w Układzie Słonecznym?', 'Mars Ziemia Jowisz Saturn', 'Jowisz'),
                      ('W którym roku wybuchła II wojna światowa?', '1939 1945 1914 1920', '1939'),
                      ('Ile nóg ma pająk?', '6 8 10 12', '8'),
                      ('Które zwierzę jest znane z tego, że śpi najdłużej w ciągu dnia?', 'Kot Słoń Leniwiec Kangur', 'Leniwiec'),
-                     ('Który pierwiastek ma symbol chemiczny "O"?', 'Tlen Wodór Złoto Azot', 'Tlen');"""; */
+                     ('Który pierwiastek ma symbol chemiczny "O"?', 'Tlen Wodór Złoto Azot', 'Tlen');""";
 
             statement.executeUpdate(setupDB);
             statement.executeUpdate(useDB);
             statement.executeUpdate(setupTableQ);
             statement.executeUpdate(setupTableA);
-        //  statement.executeUpdate(questions);
+//          statement.executeUpdate(questions);
 
         } catch (SQLException e) {
             System.out.println("Błąd przygotowania bazy lub tabel!");

@@ -66,7 +66,7 @@ public class ClientHandler implements Runnable {
                     this.concurrentFileHandler.savetoDB(clientName, this.questionNumber-1, resp);
                 } else {
                     System.out.println("End of questions, terminating session...");
-                    final String scoreString = this.score + "/" + this.questionNumber;
+                    final String scoreString = this.score + "/" + (this.questionNumber-1);
                     System.out.println("Score: " + scoreString);
 
                     Message msgQuizCompleted = new Message(MessageType.MSG_USER_QUIZ_COMPLETED, scoreString);
